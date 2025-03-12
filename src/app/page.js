@@ -1,15 +1,14 @@
 /* eslint-disable react/jsx-key */
+import { db } from "@/db";
 import getProducts from "../../database/products";
-import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 
 export const revalidate = 0;
 
 export default async function Products() {
 
-    const products = getProducts()
-
-    console.log(products)
+    const products = await db.products.findMany();
+    
 
     return (
         <>

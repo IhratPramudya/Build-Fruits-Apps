@@ -1,28 +1,13 @@
-import sqlite from 'better-sqlite3';
-const db = sqlite('products.sqlite')
+import { AddProduct } from '@/actions/productAction';
+// import { db } from '@/db';
 
 export default function AddProducts() {
-    async function handleSubmit(formData) {
-        "use server";
-
-        const newProduct = {
-            name: formData.get('name'),
-            price: formData.get('price'),
-            image: formData.get('image')
-        }
-
-        console.log(newProduct);
-
-        db.prepare(
-            `INSERT INTO products(name,price,image) VALUES(?,?,?)`
-        ).run(newProduct.name, newProduct.price, newProduct.image.name);
-    }
-
+    
     return (
         <div style={{ margin: "4em"}} >
             <form 
             className="max-w-3xl p-12 m-auto border border-gray-300 rounded-lg shadow-lg"
-            action={handleSubmit}
+            action={AddProduct}
             >
                 <div className="space-y-8">
                 <div className="border-b border-gray-200 pb-8" >

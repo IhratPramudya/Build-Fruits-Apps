@@ -5,7 +5,7 @@ export default function Header() {
     return (
         <div className={headerStyles.navbar} >
             <Link href="/" >Products</Link>
-            <Link href="/add-product" >Products</Link>
+            <Link href="/add-product" >Add Product</Link>
         </div>
     )
 }

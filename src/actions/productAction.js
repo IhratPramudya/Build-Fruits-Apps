@@ -1,14 +1,51 @@
 "use server"
 
-import sqlite from "better-sqlite3"
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-const db = sqlite("products.sqlite");
+import { db } from "@/db";
+
 
 export async function deleteProduct(productId) {
-    "use server";
-    db.prepare(
-        `DELETE FROM products WHERE id=?`
-    ).run(productId);
+    await db.products.delete({
+        where: {
+            id: productId
+        }
+    })
+    
+    revalidateTag('revalTag')
+    redirect('/')
+}
 
+
+export async function AddProduct(formData) {
+    "use server"
+
+    const productData = {
+        name: formData.get('name'),
+        price: parseFloat(formData.get('price')),
+        image: formData.get('image').name
+    }
+
+    await db.products.createMany({
+            data: productData
+    })
+    revalidatePath('/', 'page')
+    redirect('/')
+}
+
+
+export async function updateProductAction(dataForm, id) {
+    "use server";
+
+    console.log(dataForm)
+
+    await db.products.update({
+        where: {
+            id: parseInt(id)
+        },
+        data: dataForm
+    })
+
+    revalidatePath('/', 'page')
     redirect('/')
 }
